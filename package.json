@@ -21,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lintFix": "eslint . --fix --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +48,8 @@
     "@types/gapi.auth2": "^0.0.56",
     "@types/gapi.client.sheets": "^4.0.20201029",
     "@types/react": "^17.0.47",
-    "@types/react-dom": "^18.0.6"
+    "@types/react-dom": "^17.0.17",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-mobx": "^0.0.9"
   }
 }
