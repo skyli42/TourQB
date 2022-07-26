@@ -1,5 +1,5 @@
 {
-  "name": "modaq_test",
+  "name": "TourQB",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -48,4 +48,3 @@
     "@types/react": "^17.0.47",
     "@types/react-dom": "^18.0.6"
   }
-}
