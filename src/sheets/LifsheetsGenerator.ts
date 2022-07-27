@@ -6,8 +6,8 @@ import {
     ISubstitutionEvent,
     ITossupAnswerEvent,
     ITossupProtestEvent,
-} from "../state/Events";
-import { Player } from "../state/TeamState";
+} from "../modaq/state/Events";
+import { Player } from "../modaq/state/TeamState";
 import { IRoster, ISheetsGenerator } from "./ISheetsGenerator";
 import { IPlayerToColumnMap } from "./PlayerToColumnMap";
 

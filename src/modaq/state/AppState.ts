@@ -1,10 +1,10 @@
 import { assertNever } from "@fluentui/utilities";
 import { makeAutoObservable } from "mobx";
-import { IStatus } from "../IStatus";
+import { IStatus } from "../../IStatus";
 import { ICustomExport } from "./CustomExport";
 
 import * as CustomExport from "./CustomExport";
-import * as QBJ from "../qbj/QBJ";
+import * as QBJ from "../../qbj/QBJ";
 import { GameState } from "./GameState";
 import { UIState } from "./UIState";
 

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { observer } from "mobx-react-lite";
 
-import * as FormattedTextParser from "../parser/FormattedTextParser";
-import { IFormattedText } from "../parser/IFormattedText";
+import * as FormattedTextParser from "../../parser/FormattedTextParser";
+import { IFormattedText } from "../../parser/IFormattedText";
 import { FormattedText } from "./FormattedText";
 import { StateContext } from "../contexts/StateContext";
 import { AppState } from "../state/AppState";

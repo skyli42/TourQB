@@ -10,7 +10,7 @@ import { CancelButton, ICancelButtonPrompt } from "./CancelButton";
 import { BonusProtestDialog } from "./dialogs/BonusProtestDialog";
 import { AppState } from "../state/AppState";
 import { FormattedText } from "./FormattedText";
-import { IFormattedText } from "../parser/IFormattedText";
+import { IFormattedText } from "../../parser/IFormattedText";
 import { PostQuestionMetadata } from "./PostQuestionMetadata";
 
 const throwOutQuestionPrompt: ICancelButtonPrompt = {

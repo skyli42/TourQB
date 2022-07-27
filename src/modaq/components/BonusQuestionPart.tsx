@@ -7,7 +7,7 @@ import { BonusPart } from "../state/PacketState";
 import { Cycle } from "../state/Cycle";
 import { Answer } from "./Answer";
 import { FormattedText } from "./FormattedText";
-import { IFormattedText } from "../parser/IFormattedText";
+import { IFormattedText } from "../../parser/IFormattedText";
 import { IGameFormat } from "../state/IGameFormat";
 
 const bouncebackCorrectnessStyles: Partial<IDropdownStyles> = {
@@ -98,6 +98,9 @@ function onCorrectChange(
     }
 
     const isCorrect: boolean = checked ?? false;
+
+    fetch("/test")
+        .then((data)=>console.log(data));
 
     // If bouncebacks aren't supported, use the correct buzzer's team
     const teamName: string = props.cycle.correctBuzz.marker.player.teamName;

@@ -1,6 +1,6 @@
 import { IStatus } from "../IStatus";
-import { LoadingState } from "../state/SheetState";
-import { UIState } from "../state/UIState";
+import { LoadingState } from "../modaq/state/SheetState";
+import { UIState } from "../modaq/state/UIState";
 import { ISheetsApi, ISheetsBatchGetResponse, ISheetsGetResponse } from "./ISheetsApi";
 
 export const SheetsApi: ISheetsApi = {

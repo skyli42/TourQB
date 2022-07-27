@@ -1,4 +1,4 @@
-import { IPlayer } from "../state/TeamState";
+import { IPlayer } from "../modaq/state/TeamState";
 
 export interface IPlayerToColumnMap {
     get(player: IPlayer): string | undefined;

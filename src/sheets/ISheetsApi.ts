@@ -1,5 +1,5 @@
 import { IStatus } from "../IStatus";
-import { UIState } from "../state/UIState";
+import { UIState } from "../modaq/state/UIState";
 
 export interface ISheetsApi {
     initializeIfNeeded(uiState: UIState): Promise<void>;

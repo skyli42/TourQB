@@ -21,7 +21,7 @@ import {
     IDropdownOption,
 } from "@fluentui/react";
 
-import * as Sheets from "../../sheets/Sheets";
+import * as Sheets from "../../../sheets/Sheets";
 import { UIState } from "../../state/UIState";
 import { IPendingSheet } from "../../state/IPendingSheet";
 import { ExportState, SheetType } from "../../state/SheetState";

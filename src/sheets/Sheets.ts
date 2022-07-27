@@ -1,10 +1,10 @@
 import { assertNever } from "@fluentui/react";
 
 import * as PlayerToColumnMap from "./PlayerToColumnMap";
-import { UIState } from "../state/UIState";
-import { ExportState, LoadingState, SheetType } from "../state/SheetState";
-import { GameState } from "../state/GameState";
-import { AppState } from "../state/AppState";
+import { UIState } from "../modaq/state/UIState";
+import { ExportState, LoadingState, SheetType } from "../modaq/state/SheetState";
+import { GameState } from "../modaq/state/GameState";
+import { AppState } from "../modaq/state/AppState";
 import { SheetsApi } from "../sheets/SheetsApi";
 import { ISheetsApi, ISheetsBatchGetResponse, ISheetsGetResponse } from "./ISheetsApi";
 import { IStatus } from "../IStatus";
@@ -12,7 +12,7 @@ import { IRoster, ISheetsGenerator } from "./ISheetsGenerator";
 import { LifsheetsGenerator } from "./LifsheetsGenerator";
 import { TJSheetsGenerator } from "./TJSheetsGenerator";
 import { UCSDSheetsGenerator } from "./UCSDSheetsGenerator";
-import { ITossupAnswerEvent } from "../state/Events";
+import { ITossupAnswerEvent } from "../modaq/state/Events";
 
 // TODO:
 // - Socket integration! Can be very tricky because of how the cycle/phases are backed differently

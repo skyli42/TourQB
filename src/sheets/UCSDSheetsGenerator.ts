@@ -1,7 +1,7 @@
-import { Player } from "../state/TeamState";
+import { Player } from "../modaq/state/TeamState";
 import { IRoster, ISheetsGenerator } from "./ISheetsGenerator";
-import { IBonusAnswerEvent, ITossupAnswerEvent } from "../state/Events";
-import { Cycle } from "../state/Cycle";
+import { IBonusAnswerEvent, ITossupAnswerEvent } from "../modaq/state/Events";
+import { Cycle } from "../modaq/state/Cycle";
 import { IPlayerToColumnMap } from "./PlayerToColumnMap";
 
 export const UCSDSheetsGenerator: ISheetsGenerator = {

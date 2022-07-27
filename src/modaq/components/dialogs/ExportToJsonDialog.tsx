@@ -12,7 +12,7 @@ import {
     IModalProps,
 } from "@fluentui/react";
 
-import * as QBJ from "../../qbj/QBJ";
+import * as QBJ from "../../../qbj/QBJ";
 import { AppState } from "../../state/AppState";
 import { GameState } from "../../state/GameState";
 import { StateContext } from "../../contexts/StateContext";

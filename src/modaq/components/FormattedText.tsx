@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react-lite";
 import { mergeStyleSets, memoizeFunction } from "@fluentui/react";
 
-import { IFormattedText } from "../parser/IFormattedText";
+import { IFormattedText } from "../../parser/IFormattedText";
 
 export const FormattedText = observer(function FormattedText(props: IFormattedTextProps): JSX.Element {
     const classes: IFormattedTextClassNames = useStyles();

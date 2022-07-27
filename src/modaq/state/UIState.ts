@@ -8,7 +8,7 @@ import { IPendingNewGame, PendingGameType } from "./IPendingNewGame";
 import { PacketState } from "./PacketState";
 import { Player } from "./TeamState";
 import { SheetState } from "./SheetState";
-import { IStatus } from "../IStatus";
+import { IStatus } from "../../IStatus";
 import { IPendingSheet } from "./IPendingSheet";
 import { Cycle } from "./Cycle";
 import { DialogState } from "./DialogState";

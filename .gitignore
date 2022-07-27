@@ -27,3 +27,5 @@ yarn-error.log*
 server/target/
 server/debug/
 **/*.rs.bk
+
+WORKSHOP 2022/

@@ -19,7 +19,7 @@ import {
 
 import * as NewGameValidator from "../../state/NewGameValidator";
 import * as PendingNewGameUtils from "../../state/PendingNewGameUtils";
-import * as Sheets from "../../sheets/Sheets";
+import * as Sheets from "../../../sheets/Sheets";
 import { UIState } from "../../state/UIState";
 import { PacketLoader } from "../PacketLoader";
 import { GameState } from "../../state/GameState";
