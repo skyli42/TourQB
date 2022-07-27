@@ -4,22 +4,22 @@ import { IMatch } from "../../qbj/QBJ";
 
 import { ICycle } from "./Cycle";
 import { GameState } from "./GameState";
-import { IPacket } from "./IPacket";
+import { IPack } from "./IPack";
 import { IPlayer } from "./TeamState";
 
 export function convertGameToExportFields(game: GameState): IExportFields {
     return {
         cycles: toJS(game.cycles),
         players: toJS(game.players),
-        packet: {
-            tossups: game.packet.tossups.map((tossup, index) => {
+        pack: {
+            tossups: game.pack.tossups.map((tossup, index) => {
                 return toJS({
                     answer: tossup.answer,
                     question: tossup.question,
                     number: index + 1,
                 });
             }),
-            bonuses: game.packet.bonuses?.map((bonus, index) => {
+            bonuses: game.pack.bonuses?.map((bonus, index) => {
                 return {
                     leadin: bonus.leadin,
                     answers: bonus.parts.map((part) => part.answer),
@@ -40,7 +40,7 @@ export type ICustomExport = ICustomRawExport | ICustomQBJExport;
 export interface IExportFields {
     cycles: ICycle[];
     players: IPlayer[];
-    packet: IPacket;
+    pack: IPack;
 }
 
 interface ICustomRawExport extends IBaseCustomExport {

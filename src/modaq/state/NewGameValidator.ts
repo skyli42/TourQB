@@ -24,7 +24,7 @@ export function isValid(pendingNewGame: IPendingNewGame): boolean {
         atLeastOneStarter(nonEmptyFirstTeamPlayers) &&
         atLeastOneStarter(nonEmptySecondTeamPlayers) &&
         atLeastOneCycleIfCyclesExist(pendingNewGame) &&
-        pendingNewGame.packet.tossups.length !== 0
+        pendingNewGame.pack.tossups.length !== 0
     );
 }
 

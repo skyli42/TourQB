@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
 import * as GameFormats from "src/state/GameFormats";
-import * as PacketState from "src/state/PacketState";
-import { Tossup } from "src/state/PacketState";
+import * as PackState from "src/state/PackState";
+import { Tossup } from "src/state/PackState";
 import { IFormattedText } from "src/parser/IFormattedText";
 import { IGameFormat } from "src/state/IGameFormat";
 
@@ -19,7 +19,7 @@ const superpowersGameFormat: IGameFormat = {
     ],
 };
 
-describe("PacketStateTests", () => {
+describe("PackStateTests", () => {
     describe("formattedQuestionText", () => {
         // Most of these tests are handled by FormattedTextParserTests, so just test that it's hooked up to it and that
         // we include the end character
@@ -63,7 +63,7 @@ describe("PacketStateTests", () => {
     // Need tests for getBonusWords?
     describe("getBonusWords", () => {
         it("No pronunciation guide in format", () => {
-            const formattedText: IFormattedText[] = PacketState.getBonusWords("<b>This is</b> my bonus part", {
+            const formattedText: IFormattedText[] = PackState.getBonusWords("<b>This is</b> my bonus part", {
                 ...GameFormats.ACFGameFormat,
                 pronunciationGuideMarkers: undefined,
             });
@@ -82,7 +82,7 @@ describe("PacketStateTests", () => {
         });
 
         it("With pronunciation guide", () => {
-            const formattedText: IFormattedText[] = PacketState.getBonusWords(
+            const formattedText: IFormattedText[] = PackState.getBonusWords(
                 "<b>This is</b> my bonus (BONE-us) part",
                 GameFormats.ACFGameFormat
             );
@@ -107,7 +107,7 @@ describe("PacketStateTests", () => {
         });
 
         it("With multiple pronunciation guide", () => {
-            const formattedText: IFormattedText[] = PacketState.getBonusWords(
+            const formattedText: IFormattedText[] = PackState.getBonusWords(
                 "<u>Another</u> (an-OTH-er) bonus (BONE-us) part",
                 GameFormats.ACFGameFormat
             );
@@ -137,7 +137,7 @@ describe("PacketStateTests", () => {
         });
 
         it("No pronunication guide, but defined in format", () => {
-            const formattedText: IFormattedText[] = PacketState.getBonusWords(
+            const formattedText: IFormattedText[] = PackState.getBonusWords(
                 "<b>This is</b> my bonus part",
                 GameFormats.ACFGameFormat
             );

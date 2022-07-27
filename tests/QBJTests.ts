@@ -4,7 +4,7 @@ import * as GameFormats from "src/state/GameFormats";
 import * as QBJ from "src/qbj/QBJ";
 import { IMatch } from "src/qbj/QBJ";
 import { GameState } from "src/state/GameState";
-import { Bonus, PacketState, Tossup } from "src/state/PacketState";
+import { Bonus, PackState, Tossup } from "src/state/PackState";
 import { Player } from "src/state/TeamState";
 import { IGameFormat } from "src/state/IGameFormat";
 
@@ -16,14 +16,14 @@ const firstTeamPlayers: Player[] = [
 const secondTeamPlayer: Player = new Player("Bob", "B", /* isStarter */ true);
 const players: Player[] = firstTeamPlayers.concat(secondTeamPlayer);
 
-const defaultPacket: PacketState = new PacketState();
-defaultPacket.setTossups([
+const defaultPack: PackState = new PackState();
+defaultPack.setTossups([
     new Tossup("first q", "first a"),
     new Tossup("second q", "second a"),
     new Tossup("third q (*) has a power marker", "third a"),
     new Tossup("fourth q", "fourth a"),
 ]);
-defaultPacket.setBonuses([
+defaultPack.setBonuses([
     new Bonus("first leadin", [
         { question: "first q", answer: "first a", value: 10 },
         { question: "first q 2", answer: "first a 2", value: 10 },
@@ -55,7 +55,7 @@ function verifyBuzz(buzz: QBJ.IMatchQuestionBuzz, player: Player, position: numb
 
 function verifyQBJ(updateGame: (game: GameState) => void, verifyMatch: (match: IMatch, game: GameState) => void): void {
     const game: GameState = new GameState();
-    game.loadPacket(defaultPacket);
+    game.loadPack(defaultPack);
     game.addPlayers(players);
     updateGame(game);
 
@@ -459,15 +459,15 @@ describe("QBJTests", () => {
                 (game) => {
                     game.setGameFormat(GameFormats.StandardPowersMACFGameFormat);
 
-                    const packet: PacketState = new PacketState();
+                    const pack: PackState = new PackState();
                     const tossups: Tossup[] = [];
                     for (let i = 0; i < 6; i++) {
                         tossups.push(new Tossup(`Power (*) question ${i}`, `A${i}`));
                     }
 
-                    packet.setTossups(tossups);
-                    game.loadPacket(packet);
-                    console.log("Packet length: " + game.packet.tossups.length);
+                    pack.setTossups(tossups);
+                    game.loadPack(pack);
+                    console.log("Pack length: " + game.pack.tossups.length);
 
                     game.cycles[0].addWrongBuzz(
                         {
@@ -851,12 +851,12 @@ describe("QBJTests", () => {
                     game.clear();
                     game.addPlayers(players);
 
-                    const packet: PacketState = new PacketState();
-                    packet.setTossups([
+                    const pack: PackState = new PackState();
+                    pack.setTossups([
                         new Tossup("This is (*) a power", "Answer"),
                         new Tossup("Yet another (*) tossup", "Answer"),
                     ]);
-                    game.loadPacket(packet);
+                    game.loadPack(pack);
                     game.setGameFormat({ ...GameFormats.ACFGameFormat, negValue: 0 });
 
                     game.cycles[0].addWrongBuzz(
@@ -935,15 +935,15 @@ describe("QBJTests", () => {
                 }
             );
         });
-        it("Packet name in packets field", () => {
+        it("Pack name in packs field", () => {
             const game: GameState = new GameState();
-            game.loadPacket(defaultPacket);
+            game.loadPack(defaultPack);
             game.addPlayers(players);
 
-            const qbj: string = QBJ.toQBJString(game, "Packet_17.docx");
+            const qbj: string = QBJ.toQBJString(game, "Pack_17.docx");
             expect(qbj).to.not.be.undefined;
             const match: IMatch = JSON.parse(qbj);
-            expect(match.packets).to.equal("Packet_17");
+            expect(match.packs).to.equal("Pack_17");
         });
     });
 });

@@ -2,7 +2,7 @@ import { assert, expect } from "chai";
 
 import * as TossupQuestionController from "src/components/TossupQuestionController";
 import { Player } from "src/state/TeamState";
-import { PacketState, Tossup } from "src/state/PacketState";
+import { PackState, Tossup } from "src/state/PackState";
 import { Cycle } from "src/state/Cycle";
 import { AppState } from "src/state/AppState";
 
@@ -12,13 +12,13 @@ describe("TossupQuestionControllerTests", () => {
             const appState: AppState = new AppState();
             appState.game.addPlayers([new Player("Alice", "Alpha", true), new Player("Bob", "Beta", true)]);
 
-            const packet: PacketState = new PacketState();
-            packet.setTossups([
+            const pack: PackState = new PackState();
+            pack.setTossups([
                 new Tossup("This is the first question", "Answer"),
                 new Tossup("This is the second question", "Second answer"),
             ]);
 
-            appState.game.loadPacket(packet);
+            appState.game.loadPack(pack);
             const cycle: Cycle = appState.game.cycles[0];
 
             TossupQuestionController.throwOutTossup(appState, cycle, 1);

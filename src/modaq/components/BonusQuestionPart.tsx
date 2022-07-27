@@ -2,8 +2,8 @@ import React from "react";
 import { Checkbox, Dropdown, IDropdownOption, IDropdownStyles, mergeStyleSets } from "@fluentui/react";
 import { observer } from "mobx-react-lite";
 
-import * as PacketState from "../state/PacketState";
-import { BonusPart } from "../state/PacketState";
+import * as PackState from "../state/PackState";
+import { BonusPart } from "../state/PackState";
 import { Cycle } from "../state/Cycle";
 import { Answer } from "./Answer";
 import { FormattedText } from "./FormattedText";
@@ -67,7 +67,7 @@ export const BonusQuestionPart = observer(function BonusQuestionPart(props: IBon
     }
 
     const bonusPartText: IFormattedText[] = React.useMemo(
-        () => PacketState.getBonusWords(props.bonusPart.question, props.gameFormat),
+        () => PackState.getBonusWords(props.bonusPart.question, props.gameFormat),
         [props.bonusPart.question, props.gameFormat]
     );
 

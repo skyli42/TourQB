@@ -25,7 +25,7 @@ import { ITossupAnswerEvent } from "../modaq/state/Events";
 //     - May be easier to support some basic things, like regulation tossup count. Could block Next -> if it's past that
 //         - Means we have to calculate how many TUs were read for the Sheets export
 //     - Could make Format something we only change in Options, but it should be part of the New Game flow. May require
-//       converting it to a wizard (add packet, add teams, choose format)
+//       converting it to a wizard (add pack, add teams, choose format)
 //       - Format could also be a dropdown, with one option being "Custom..." that would open a popup. But we want to
 //         show what the format is too... could maybe do with collapsible panes.
 // Ideally, next steps would be to have a autorun or reaction when cycles change, so we can update the scoresheet.

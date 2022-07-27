@@ -13,8 +13,8 @@ import {
 
 import { GameState } from "../../state/GameState";
 import { AppState } from "../../state/AppState";
-import { PacketLoader } from "../PacketLoader";
-import { PacketState } from "../../state/PacketState";
+import { PackLoader } from "../PackLoader";
+import { PackState } from "../../state/PackState";
 import { AddQuestionDialogState } from "../../state/AddQuestionsDialogState";
 import { StateContext } from "../../contexts/StateContext";
 
@@ -71,11 +71,11 @@ export const AddQuestionsDialog = observer(function AddQuestionsDialog(): JSX.El
 const AddQuestionsDialogBody = observer(function AddQuestionsDialogBody(): JSX.Element {
     const appState: AppState = React.useContext(StateContext);
     const loadHandler = React.useCallback(
-        (packet: PacketState) => appState.uiState.dialogState.addQuestions?.setPacket(packet),
+        (pack: PackState) => appState.uiState.dialogState.addQuestions?.setPack(pack),
         [appState]
     );
 
-    return <PacketLoader appState={appState} onLoad={loadHandler} />;
+    return <PackLoader appState={appState} onLoad={loadHandler} />;
 });
 
 function onSubmit(appState: AppState): void {
@@ -85,16 +85,16 @@ function onSubmit(appState: AppState): void {
         throw new Error("Tried adding more questions without any questions");
     }
 
-    const combinedPacket: PacketState = new PacketState();
-    combinedPacket.setTossups(game.packet.tossups.concat(state.newPacket.tossups));
-    combinedPacket.setBonuses(game.packet.bonuses.concat(state.newPacket.bonuses));
-    game.loadPacket(combinedPacket);
+    const combinedPack: PackState = new PackState();
+    combinedPack.setTossups(game.pack.tossups.concat(state.newPack.tossups));
+    combinedPack.setBonuses(game.pack.bonuses.concat(state.newPack.bonuses));
+    game.loadPack(combinedPack);
 
     hideDialog(appState);
 }
 
 function onCancel(appState: AppState): void {
-    appState.uiState.clearPacketStatus();
+    appState.uiState.clearPackStatus();
     hideDialog(appState);
 }
 

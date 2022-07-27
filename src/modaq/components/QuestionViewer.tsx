@@ -29,8 +29,8 @@ export const QuestionViewer = observer(function QuestionViewer() {
 
     let bonus: JSX.Element | null = null;
     const bonusInPlay: boolean = cycle.correctBuzz != undefined;
-    if (bonusIndex < 0 || bonusIndex >= game.packet.bonuses.length) {
-        // TODO: Allow users to add more bonuses (maybe by appending to a packet)
+    if (bonusIndex < 0 || bonusIndex >= game.pack.bonuses.length) {
+        // TODO: Allow users to add more bonuses (maybe by appending to a pack)
         bonus = (
             <div>
                 No more bonuses available. You will need to get some bonuses elsewhere, and tally this score elsewhere.
@@ -45,7 +45,7 @@ export const QuestionViewer = observer(function QuestionViewer() {
         bonus = (
             <BonusQuestion
                 appState={appState}
-                bonus={game.packet.bonuses[bonusIndex]}
+                bonus={game.pack.bonuses[bonusIndex]}
                 bonusIndex={bonusIndex}
                 cycle={cycle}
                 inPlay={bonusInPlay}
@@ -54,18 +54,18 @@ export const QuestionViewer = observer(function QuestionViewer() {
     }
 
     let tossup: JSX.Element | null = null;
-    if (tossupIndex >= 0 && tossupIndex < game.packet.tossups.length) {
+    if (tossupIndex >= 0 && tossupIndex < game.pack.tossups.length) {
         tossup = (
             <TossupQuestion
                 appState={appState}
                 bonusIndex={bonusIndex}
                 tossupNumber={tossupIndex + 1}
                 cycle={cycle}
-                tossup={game.packet.tossups[tossupIndex]}
+                tossup={game.pack.tossups[tossupIndex]}
             />
         );
     } else {
-        // TODO: Allow users to add more tossups (maybe by appending to a packet)
+        // TODO: Allow users to add more tossups (maybe by appending to a pack)
         // TODO: Move this and the bonus error message inside the components? Then it would be styled properly
         tossup = (
             <div>

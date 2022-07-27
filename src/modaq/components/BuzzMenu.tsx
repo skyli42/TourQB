@@ -14,7 +14,7 @@ import { ContextualMenu, ContextualMenuItemType, IContextualMenuItem } from "@fl
 import * as CompareUtils from "../state/CompareUtils";
 import { Player } from "../state/TeamState";
 import { Cycle } from "../state/Cycle";
-import { Tossup } from "../state/PacketState";
+import { Tossup } from "../state/PackState";
 import { IBuzzMarker } from "../state/IBuzzMarker";
 import { AppState } from "../state/AppState";
 import { ITossupAnswerEvent } from "../state/Events";
@@ -156,8 +156,8 @@ function onCorrectClicked(
 
         // If we don't know the number of parts, assume it's 3, which is standard
         const partsCount: number | undefined =
-            bonusIndex != undefined && props.appState.game.packet.bonuses[bonusIndex] != undefined
-                ? props.appState.game.packet.bonuses[bonusIndex].parts.length
+            bonusIndex != undefined && props.appState.game.pack.bonuses[bonusIndex] != undefined
+                ? props.appState.game.pack.bonuses[bonusIndex].parts.length
                 : 3;
 
         props.cycle.addCorrectBuzz(

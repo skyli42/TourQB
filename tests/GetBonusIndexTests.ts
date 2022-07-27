@@ -3,20 +3,20 @@ import { expect } from "chai";
 import { Cycle } from "src/state/Cycle";
 import { Player } from "src/state/TeamState";
 import { GameState } from "src/state/GameState";
-import { PacketState, Tossup, Bonus } from "src/state/PacketState";
+import { PackState, Tossup, Bonus } from "src/state/PackState";
 
 const firstTeamPlayer: Player = new Player("Alice", "A", /* isStarter */ true);
 const secondTeamPlayer: Player = new Player("Bob", "B", /* isStarter */ true);
 const players: Player[] = [firstTeamPlayer, secondTeamPlayer];
 
-const defaultPacket: PacketState = new PacketState();
-defaultPacket.setTossups([
+const defaultPack: PackState = new PackState();
+defaultPack.setTossups([
     new Tossup("first q", "first a"),
     new Tossup("second q", "second a"),
     new Tossup("third q", "third a"),
     new Tossup("fourth q", "fourth a"),
 ]);
-defaultPacket.setBonuses([
+defaultPack.setBonuses([
     new Bonus("first leadin", [{ question: "first q", answer: "first a", value: 10 }]),
     new Bonus("second leadin", [{ question: "second q", answer: "second a", value: 10 }]),
     new Bonus("third leadin", [{ question: "third q", answer: "third a", value: 10 }]),
@@ -62,7 +62,7 @@ describe("GameStateTests", () => {
                 0,
                 game.gameFormat,
                 0,
-                defaultPacket.bonuses[0].parts.length
+                defaultPack.bonuses[0].parts.length
             );
 
             expect(game.getBonusIndex(0)).to.equal(0);
@@ -82,7 +82,7 @@ describe("GameStateTests", () => {
                 0,
                 game.gameFormat,
                 0,
-                defaultPacket.bonuses[0].parts.length
+                defaultPack.bonuses[0].parts.length
             );
             game.cycles[buzzCycleIndex].addThrownOutBonus(0);
 
@@ -104,7 +104,7 @@ describe("GameStateTests", () => {
                 0,
                 game.gameFormat,
                 0,
-                defaultPacket.bonuses[0].parts.length
+                defaultPack.bonuses[0].parts.length
             );
             cycle.addThrownOutBonus(0);
             cycle.addThrownOutBonus(1);
@@ -127,7 +127,7 @@ describe("GameStateTests", () => {
                 0,
                 game.gameFormat,
                 0,
-                defaultPacket.bonuses[0].parts.length
+                defaultPack.bonuses[0].parts.length
             );
 
             game.cycles[secondBuzzCycleIndex].addCorrectBuzz(
@@ -139,7 +139,7 @@ describe("GameStateTests", () => {
                 1,
                 game.gameFormat,
                 1,
-                defaultPacket.bonuses[1].parts.length
+                defaultPack.bonuses[1].parts.length
             );
 
             expect(game.getBonusIndex(buzzCycleIndex)).to.equal(0);
@@ -160,12 +160,12 @@ describe("GameStateTests", () => {
                 0,
                 game.gameFormat,
                 0,
-                defaultPacket.bonuses[0].parts.length
+                defaultPack.bonuses[0].parts.length
             );
 
             // Throw out all but the last two bonuses. The next cycle will use the last bonus, then we can verify that
             // throwing it out returns -1 for getBonusIndex
-            for (let i = 0; i < game.packet.bonuses.length - 2; i++) {
+            for (let i = 0; i < game.pack.bonuses.length - 2; i++) {
                 buzzCycle.addThrownOutBonus(i);
             }
 
@@ -179,14 +179,14 @@ describe("GameStateTests", () => {
                 },
                 1,
                 game.gameFormat,
-                game.packet.bonuses.length - 1,
-                defaultPacket.bonuses[game.packet.bonuses.length - 1].parts.length
+                game.pack.bonuses.length - 1,
+                defaultPack.bonuses[game.pack.bonuses.length - 1].parts.length
             );
 
-            expect(game.getBonusIndex(buzzCycleIndex)).to.equal(game.packet.bonuses.length - 2);
-            expect(game.getBonusIndex(nextBuzzCycleIndex)).to.equal(game.packet.bonuses.length - 1);
+            expect(game.getBonusIndex(buzzCycleIndex)).to.equal(game.pack.bonuses.length - 2);
+            expect(game.getBonusIndex(nextBuzzCycleIndex)).to.equal(game.pack.bonuses.length - 1);
 
-            nextBuzzCycle.addThrownOutBonus(game.packet.bonuses.length - 1);
+            nextBuzzCycle.addThrownOutBonus(game.pack.bonuses.length - 1);
             expect(game.getBonusIndex(nextBuzzCycleIndex)).to.equal(-1);
             expect(game.getBonusIndex(nextBuzzCycleIndex + 1)).to.equal(-1);
         });
@@ -196,6 +196,6 @@ describe("GameStateTests", () => {
 function createDefaultGame(): GameState {
     const game: GameState = new GameState();
     game.addPlayers(players);
-    game.loadPacket(defaultPacket);
+    game.loadPack(defaultPack);
     return game;
 }

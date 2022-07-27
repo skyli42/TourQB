@@ -3,11 +3,11 @@ import { IBonusAnswerPart, ITossupAnswerEvent } from "../modaq/state/Events";
 import { GameState } from "../modaq/state/GameState";
 
 // Converts games into a QBJ file that conforms to the Match interface in the QB Schema
-export function toQBJString(game: GameState, packetName?: string): string {
-    return JSON.stringify(toQBJ(game, packetName));
+export function toQBJString(game: GameState, packName?: string): string {
+    return JSON.stringify(toQBJ(game, packName));
 }
 
-export function toQBJ(game: GameState, packetName?: string): IMatch {
+export function toQBJ(game: GameState, packName?: string): IMatch {
     // Convert it to a Match, then use JSON.stringify
 
     const players: IPlayer[] = [];
@@ -302,14 +302,14 @@ export function toQBJ(game: GameState, packetName?: string): IMatch {
         notes: noteworthyEvents.length > 0 ? noteworthyEvents.join("\n") : undefined,
     };
 
-    if (packetName) {
-        const lastDotIndex: number = packetName.lastIndexOf(".");
+    if (packName) {
+        const lastDotIndex: number = packName.lastIndexOf(".");
         if (lastDotIndex > 0) {
-            // Strip out the . to get the packet name
-            packetName = packetName.substring(0, lastDotIndex);
+            // Strip out the . to get the pack name
+            packName = packName.substring(0, lastDotIndex);
         }
 
-        match.packets = packetName;
+        match.packs = packName;
     }
 
     return match;
@@ -382,7 +382,7 @@ export interface IMatch {
     match_teams: IMatchTeam[];
     match_questions: IMatchQuestion[];
     notes?: string; // For storing protest info and thrown out Qs
-    packets?: string; // The name of the packet
+    packs?: string; // The name of the pack
 }
 
 export interface ITeam {
@@ -434,7 +434,7 @@ export interface IMatchQuestion {
 }
 
 export interface IQuestion {
-    question_number: number; // number of question in packet
+    question_number: number; // number of question in pack
     type: "tossup" | "bonus" | "lightning";
     parts: number; // 1 for tossup, n for bonuses
 }

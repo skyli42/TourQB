@@ -2,9 +2,9 @@ import * as React from "react";
 import { observer } from "mobx-react-lite";
 import { FocusZone, FocusZoneDirection, mergeStyleSets, Stack, StackItem } from "@fluentui/react";
 
-import * as PacketState from "../state/PacketState";
+import * as PackState from "../state/PackState";
 import { BonusQuestionPart } from "./BonusQuestionPart";
-import { Bonus } from "../state/PacketState";
+import { Bonus } from "../state/PackState";
 import { Cycle } from "../state/Cycle";
 import { CancelButton, ICancelButtonPrompt } from "./CancelButton";
 import { BonusProtestDialog } from "./dialogs/BonusProtestDialog";
@@ -24,7 +24,7 @@ export const BonusQuestion = observer(function BonusQuestion(props: IBonusQuesti
         props.cycle.addThrownOutBonus(props.bonusIndex);
     }, [props]);
     const formattedLeadin: IFormattedText[] = React.useMemo(
-        () => PacketState.getBonusWords(props.bonus.leadin, props.appState.game.gameFormat),
+        () => PackState.getBonusWords(props.bonus.leadin, props.appState.game.gameFormat),
         [props.bonus.leadin, props.appState.game.gameFormat]
     );
 

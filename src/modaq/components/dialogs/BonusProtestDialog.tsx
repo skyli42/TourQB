@@ -5,7 +5,7 @@ import { Dropdown, IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import { ProtestDialogBase } from "./ProtestDialogBase";
 import { Cycle } from "../../state/Cycle";
 import { IBonusAnswerPart, IBonusProtestEvent } from "../../state/Events";
-import { Bonus } from "../../state/PacketState";
+import { Bonus } from "../../state/PackState";
 import { AppState } from "../../state/AppState";
 
 export const BonusProtestDialog = observer(function BonusProtestDialog(props: IBonusProtestDialogProps): JSX.Element {

@@ -16,15 +16,15 @@ import { AsyncTrunk } from "mobx-sync";
 import { configure } from "mobx";
 import { observer } from "mobx-react-lite";
 
-import * as PacketLoaderController from "./PacketLoaderController";
+import * as PackLoaderController from "./PackLoaderController";
 import { StateProvider } from "../contexts/StateContext";
 import { AppState } from "../state/AppState";
 import { GameViewer } from "./GameViewer";
 import { ModalDialogContainer } from "./ModalDialogContainer";
 import { IGameFormat } from "../state/IGameFormat";
-import { IPacket } from "../state/IPacket";
+import { IPack } from "../state/IPack";
 import { IPlayer, Player } from "../state/TeamState";
-import { PacketState } from "../state/PacketState";
+import { PackState } from "../state/PackState";
 import { ICustomExport } from "../state/CustomExport";
 
 export const ModaqControl = observer(function ModaqControl(props: IModaqControlProps): JSX.Element {
@@ -41,13 +41,13 @@ export const ModaqControl = observer(function ModaqControl(props: IModaqControlP
         }
     }, [appState, props.gameFormat]);
     React.useEffect(() => {
-        if (props.packet != undefined) {
-            const packet: PacketState | undefined = PacketLoaderController.loadPacket(appState, props.packet);
-            if (packet) {
-                appState.game.loadPacket(packet);
+        if (props.pack != undefined) {
+            const pack: PackState | undefined = PackLoaderController.loadPack(appState, props.pack);
+            if (pack) {
+                appState.game.loadPack(pack);
             }
         }
-    }, [appState, props.packet]);
+    }, [appState, props.pack]);
     React.useEffect(() => {
         if (props.players != undefined) {
             appState.game.setPlayers(
@@ -81,7 +81,7 @@ export interface IModaqControlProps {
     hideNewGame?: boolean;
 
     // This should only be set once
-    packet?: IPacket;
+    pack?: IPack;
 
     // This should only be set once
     players?: IPlayer[];

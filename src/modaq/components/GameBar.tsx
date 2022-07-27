@@ -11,7 +11,7 @@ import {
 import { GameState } from "../state/GameState";
 import { UIState } from "../state/UIState";
 import { Cycle } from "../state/Cycle";
-import { Bonus, Tossup } from "../state/PacketState";
+import { Bonus, Tossup } from "../state/PackState";
 import { Player } from "../state/TeamState";
 import { AppState } from "../state/AppState";
 import { ITossupAnswerEvent } from "../state/Events";
@@ -43,7 +43,7 @@ export const GameBar = observer(function GameBar(): JSX.Element {
         }
 
         const bonusIndex: number = game.getBonusIndex(uiState.cycleIndex);
-        const bonus: Bonus | undefined = game.packet.bonuses[bonusIndex];
+        const bonus: Bonus | undefined = game.pack.bonuses[bonusIndex];
         if (bonus == undefined) {
             // Something is wrong... the bonus is undefined, but this handler can be accessed?
             throw new Error(`Impossible to add bonus protest for bonus question ${bonusIndex}`);
@@ -179,12 +179,12 @@ function getActionSubMenuItems(
     const protestsSection: ICommandBarItemProps = getProtestSubMenuItems(appState, game, uiState, protestBonusHandler);
     items.push(protestsSection);
 
-    const packetSection: ICommandBarItemProps = {
-        key: "packetSection",
+    const packSection: ICommandBarItemProps = {
+        key: "packSection",
         itemType: ContextualMenuItemType.Section,
         sectionProps: {
             bottomDivider: true,
-            title: "Packet",
+            title: "Pack",
             items: [
                 {
                     key: "addMoreQuestions",
@@ -195,7 +195,7 @@ function getActionSubMenuItems(
             ],
         },
     };
-    items.push(packetSection);
+    items.push(packSection);
 
     return items;
 }
@@ -455,7 +455,7 @@ function getProtestSubMenuItems(
     if (cycle?.bonusAnswer != undefined) {
         const bonusIndex: number = game.getBonusIndex(uiState.cycleIndex);
         if (bonusIndex !== -1) {
-            const bonus: Bonus = game.packet.bonuses[bonusIndex];
+            const bonus: Bonus = game.pack.bonuses[bonusIndex];
             if (cycle.getProtestableBonusPartIndexes(bonus.parts.length).length > 0) {
                 protestBonusItem = {
                     key: "protestBonus",
@@ -519,7 +519,7 @@ function onProtestTossupClick(
     }
 
     const tossupIndex: number = game.getTossupIndex(uiState.cycleIndex);
-    const tossup: Tossup | undefined = game.packet.tossups[tossupIndex];
+    const tossup: Tossup | undefined = game.pack.tossups[tossupIndex];
     if (tossup == undefined) {
         // Something is wrong... the tossup is undefined, but this handler can be accessed?
         throw new Error(`Impossible to add tossup protest for tossup question ${tossupIndex}`);

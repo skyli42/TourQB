@@ -8,7 +8,7 @@ import { IPendingFromSheetsNewGame, IPendingNewGame, PendingGameType } from "src
 import { ExportState, LoadingState, SheetType } from "src/state/SheetState";
 import { IStatus } from "src/IStatus";
 import { Player } from "src/state/TeamState";
-import { PacketState, Tossup, Bonus } from "src/state/PacketState";
+import { PackState, Tossup, Bonus } from "src/state/PackState";
 import { Cycle } from "src/state/Cycle";
 import { IGameFormat } from "src/state/IGameFormat";
 
@@ -41,9 +41,9 @@ function createAppStateForExport(sheetType: SheetType = SheetType.Lifsheets): Ap
 
     appState.game.addPlayers([new Player("Alice", "Alpha", true), new Player("Bob", "Beta", true)]);
 
-    const packet: PacketState = new PacketState();
-    packet.setTossups([new Tossup("This tossup has five words.", "A")]);
-    packet.setBonuses([
+    const pack: PackState = new PackState();
+    pack.setTossups([new Tossup("This tossup has five words.", "A")]);
+    pack.setBonuses([
         new Bonus("Leadin", [
             { question: "Part 1", answer: "A1", value: 10 },
             { question: "Part 2", answer: "A2", value: 10 },
@@ -51,7 +51,7 @@ function createAppStateForExport(sheetType: SheetType = SheetType.Lifsheets): Ap
         ]),
     ]);
 
-    appState.game.loadPacket(packet);
+    appState.game.loadPack(pack);
 
     appState.uiState.sheetsState.setSheetId("1");
     appState.uiState.sheetsState.setSheetType(sheetType);
@@ -422,9 +422,9 @@ describe("SheetsTests", () => {
         ): Promise<void> => {
             const appState: AppState = createAppStateForExport(sheetType);
 
-            const packet: PacketState = new PacketState();
-            packet.setTossups([new Tossup("This tossup has (*) five words.", "A")]);
-            packet.setBonuses([
+            const pack: PackState = new PackState();
+            pack.setTossups([new Tossup("This tossup has (*) five words.", "A")]);
+            pack.setBonuses([
                 new Bonus("Leadin", [
                     { question: "Part 1", answer: "A1", value: 10 },
                     { question: "Part 2", answer: "A2", value: 10 },
@@ -432,7 +432,7 @@ describe("SheetsTests", () => {
                 ]),
             ]);
 
-            appState.game.loadPacket(packet);
+            appState.game.loadPack(pack);
             appState.game.setGameFormat(GameFormats.StandardPowersMACFGameFormat);
 
             const player: Player = findPlayerOnTeam(appState, "Alpha");
@@ -777,14 +777,14 @@ describe("SheetsTests", () => {
             const sub = new Player("Adam", "Alpha", /* isStarter */ false);
             appState.game.addPlayer(sub);
 
-            const packet: PacketState = new PacketState();
+            const pack: PackState = new PackState();
             const tossups: Tossup[] = [];
             for (let i = 0; i < 4; i++) {
                 tossups.push(new Tossup(`TU${i}`, `Answer ${i}`));
             }
 
-            packet.setTossups(tossups);
-            appState.game.loadPacket(packet);
+            pack.setTossups(tossups);
+            appState.game.loadPack(pack);
 
             // Swap in the 3rd phase
             appState.game.cycles[2].addSwapSubstitution(sub, starter);
@@ -832,14 +832,14 @@ describe("SheetsTests", () => {
             const sub = new Player("Barbara", "Beta", /* isStarter */ false);
             appState.game.addPlayer(sub);
 
-            const packet: PacketState = new PacketState();
+            const pack: PackState = new PackState();
             const tossups: Tossup[] = [];
             for (let i = 0; i < 4; i++) {
                 tossups.push(new Tossup(`TU${i}`, `Answer ${i}`));
             }
 
-            packet.setTossups(tossups);
-            appState.game.loadPacket(packet);
+            pack.setTossups(tossups);
+            appState.game.loadPack(pack);
 
             // Swap in the 4th phase
             appState.game.cycles[3].addSwapSubstitution(sub, starter);
@@ -1036,15 +1036,15 @@ describe("SheetsTests", () => {
         ) => {
             const appState: AppState = createAppStateForExport(sheetType);
 
-            const packet: PacketState = new PacketState();
+            const pack: PackState = new PackState();
             const tossups: Tossup[] = [];
             for (let i = 0; i < tossupsScored; i++) {
                 tossups.push(new Tossup(`TU${i}`, `Answer ${i}`));
             }
 
-            packet.setTossups(tossups);
+            pack.setTossups(tossups);
 
-            appState.game.loadPacket(packet);
+            appState.game.loadPack(pack);
 
             const player: Player = findPlayerOnTeam(appState, "Alpha");
             const position = 3;
@@ -1087,15 +1087,15 @@ describe("SheetsTests", () => {
         const pastTossupLimitCycleFailsTest = async (sheetType: SheetType, tossupsCount: number) => {
             const appState: AppState = createAppStateForExport(sheetType);
 
-            const packet: PacketState = new PacketState();
+            const pack: PackState = new PackState();
             const tossups: Tossup[] = [];
             for (let i = 0; i < tossupsCount; i++) {
                 tossups.push(new Tossup(`TU${i}`, `Answer ${i}`));
             }
 
-            packet.setTossups(tossups);
+            pack.setTossups(tossups);
 
-            appState.game.loadPacket(packet);
+            appState.game.loadPack(pack);
 
             await verifyExportToSheetsError(
                 appState,
@@ -1122,15 +1122,15 @@ describe("SheetsTests", () => {
             const gameFormat: IGameFormat = { ...GameFormats.UndefinedGameFormat, regulationTossupCount: 1 };
             appState.game.setGameFormat(gameFormat);
 
-            const packet: PacketState = new PacketState();
+            const pack: PackState = new PackState();
             const tossups: Tossup[] = [];
             for (let i = 0; i < 10; i++) {
                 tossups.push(new Tossup(`TU${i}`, `Answer ${i}`));
             }
 
-            packet.setTossups(tossups);
+            pack.setTossups(tossups);
 
-            appState.game.loadPacket(packet);
+            appState.game.loadPack(pack);
 
             const player: Player = findPlayerOnTeam(appState, "Alpha");
             const position = 3;

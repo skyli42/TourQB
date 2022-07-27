@@ -65,7 +65,7 @@ export const ExportToJsonDialog = observer(function ExportToJsonDialog(): JSX.El
     const gameHref: string = URL.createObjectURL(gameJson);
     const gameFilename = `${joinedTeamNames}_Game.json`;
 
-    const qbjJson: Blob = new Blob([QBJ.toQBJString(game, appState.uiState.packetFilename)], {
+    const qbjJson: Blob = new Blob([QBJ.toQBJString(game, appState.uiState.packFilename)], {
         type: "application/json",
     });
     const qbjHref: string = URL.createObjectURL(qbjJson);
@@ -79,7 +79,7 @@ export const ExportToJsonDialog = observer(function ExportToJsonDialog(): JSX.El
             maxWidth="40vw"
             onDismiss={closeHandler}
         >
-            <Label>To export the whole game (packet, players, and events), click on &quot;Export game&quot;.</Label>
+            <Label>To export the whole game (pack, players, and events), click on &quot;Export game&quot;.</Label>
             <Label>To only export the events, click on &quot;Export events&quot;.</Label>
             <DialogFooter>
                 <PrimaryButton text="Export game" onClick={closeHandler} href={gameHref} download={gameFilename} />

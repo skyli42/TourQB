@@ -1,4 +1,4 @@
-export interface IPacket {
+export interface IPack {
     tossups: ITossup[];
     bonuses?: IBonus[];
 }

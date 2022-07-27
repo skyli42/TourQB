@@ -4,12 +4,12 @@ import * as CustomizeGameFormatController from "src/components/dialogs/CustomGam
 import * as GameFormats from "src/state/GameFormats";
 import { AppState } from "src/state/AppState";
 import { GameState } from "src/state/GameState";
-import { PacketState, Tossup, Bonus } from "src/state/PacketState";
+import { PackState, Tossup, Bonus } from "src/state/PackState";
 import { IGameFormat } from "src/state/IGameFormat";
 
-const defaultPacket: PacketState = new PacketState();
-defaultPacket.setTossups([new Tossup("first q", "first a"), new Tossup("second q", "second a")]);
-defaultPacket.setBonuses([
+const defaultPack: PackState = new PackState();
+defaultPack.setTossups([new Tossup("first q", "first a"), new Tossup("second q", "second a")]);
+defaultPack.setBonuses([
     new Bonus("first leadin", [
         { question: "first q", answer: "first a", value: 10 },
         { question: "first q 2", answer: "first a 2", value: 10 },
@@ -24,7 +24,7 @@ defaultPacket.setBonuses([
 
 function createApp(): AppState {
     const gameState: GameState = new GameState();
-    gameState.loadPacket(defaultPacket);
+    gameState.loadPack(defaultPack);
 
     const appState: AppState = new AppState();
     appState.game = gameState;

@@ -1,9 +1,10 @@
 import React from 'react';
+import TDControl from './TDControl';
 
 
 function SiteHome() {
   return (
-    <div>Home</div>
+    <TDControl tour_id="test1"/>
   );
 }
 

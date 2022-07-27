@@ -2,14 +2,14 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { Label, ILabelStyles } from "@fluentui/react";
 
-import * as PacketLoaderController from "../components/PacketLoaderController";
+import * as PackLoaderController from "../components/PackLoaderController";
 import { UIState } from "../state/UIState";
-import { PacketState } from "../state/PacketState";
+import { PackState } from "../state/PackState";
 import { AppState } from "../state/AppState";
 import { FilePicker } from "./FilePicker";
-import { IPacket } from "../state/IPacket";
+import { IPack } from "../state/IPack";
 
-export const PacketLoader = observer(function PacketLoader(props: IPacketLoaderProps): JSX.Element | null {
+export const PackLoader = observer(function PackLoader(props: IPackLoaderProps): JSX.Element | null {
     const onLoadHandler = React.useCallback((ev: ProgressEvent<FileReader>) => onLoad(ev, props), [props]);
     const uploadHandler = React.useCallback(
         (event: React.ChangeEvent<HTMLInputElement>, files: FileList | undefined | null) => {
@@ -20,7 +20,7 @@ export const PacketLoader = observer(function PacketLoader(props: IPacketLoaderP
 
     const statusStyles: ILabelStyles = {
         root: {
-            color: props.appState.uiState.packetParseStatus?.isError ?? false ? "rgb(128, 0, 0)" : undefined,
+            color: props.appState.uiState.packParseStatus?.isError ?? false ? "rgb(128, 0, 0)" : undefined,
         },
     };
 
@@ -33,23 +33,23 @@ export const PacketLoader = observer(function PacketLoader(props: IPacketLoaderP
             <FilePicker
                 accept="application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 buttonText="Load..."
-                label="Packet"
+                label="Pack"
                 required={true}
                 onChange={uploadHandler}
             />
-            <Label styles={statusStyles}>{props.appState.uiState.packetParseStatus?.status}</Label>
+            <Label styles={statusStyles}>{props.appState.uiState.packParseStatus?.status}</Label>
         </div>
     );
 });
 
 function onChange(
-    props: IPacketLoaderProps,
+    props: IPackLoaderProps,
     files: FileList | undefined | null,
     onLoadHandler: (ev: ProgressEvent<FileReader>) => void,
     event: React.ChangeEvent<HTMLInputElement>
 ): void {
     event.preventDefault();
-    props.appState.uiState.clearPacketStatus();
+    props.appState.uiState.clearPackStatus();
 
     if (files == undefined || files.length === 0) {
         return;
@@ -60,7 +60,7 @@ function onChange(
 
     // docx files should be read as a binaray, while json should be read as text
     const file: File = files[0];
-    props.appState.uiState.setPacketFilename(file.name);
+    props.appState.uiState.setPackFilename(file.name);
 
     if (file.type === "application/json" || file.type === "text/plain") {
         fileReader.readAsText(file);
@@ -69,23 +69,23 @@ function onChange(
     }
 }
 
-function onLoad(ev: ProgressEvent<FileReader>, props: IPacketLoaderProps): void {
+function onLoad(ev: ProgressEvent<FileReader>, props: IPackLoaderProps): void {
     // TODO: This should appear in the UI. Maybe set something in UIState.
     if (ev.target == undefined || ev.target.result == undefined) {
-        props.appState.uiState.setPacketStatus({ isError: true, status: "Error loading packet: no file uploaded." });
-        throw "Error loading packet: no file uploaded.";
+        props.appState.uiState.setPackStatus({ isError: true, status: "Error loading pack: no file uploaded." });
+        throw "Error loading pack: no file uploaded.";
     }
 
     // JSON is returned as a string, docx as a binary
     if (typeof ev.target.result === "string") {
-        loadJsonPacket(props, ev.target.result);
+        loadJsonPack(props, ev.target.result);
         return;
     }
 
-    loadDocxPacket(props, ev.target.result);
+    loadDocxPack(props, ev.target.result);
 }
 
-async function loadDocxPacket(props: IPacketLoaderProps, docxBinary: ArrayBuffer): Promise<void> {
+async function loadDocxPack(props: IPackLoaderProps, docxBinary: ArrayBuffer): Promise<void> {
     if (props.appState.uiState.yappServiceUrl == undefined) {
         return;
     }
@@ -96,7 +96,7 @@ async function loadDocxPacket(props: IPacketLoaderProps, docxBinary: ArrayBuffer
         mode: "cors",
     };
 
-    props.appState.uiState.setPacketStatus({ isError: false, status: "Contacting parsing service..." });
+    props.appState.uiState.setPackStatus({ isError: false, status: "Contacting parsing service..." });
 
     try {
         const response: Response = await fetch(props.appState.uiState.yappServiceUrl, requestInfo);
@@ -111,45 +111,45 @@ async function loadDocxPacket(props: IPacketLoaderProps, docxBinary: ArrayBuffer
                 errorMessage = errorMessageMap.errorMessages.join("\r\n");
             }
 
-            props.appState.uiState.setPacketStatus({
+            props.appState.uiState.setPackStatus({
                 isError: true,
-                status: `Error loading packet: Parsing service returned an error (${response.status}). Message: ${errorMessage}`,
+                status: `Error loading pack: Parsing service returned an error (${response.status}). Message: ${errorMessage}`,
             });
             return;
         }
 
         const responseJson: string = await response.text();
-        loadJsonPacket(props, responseJson);
+        loadJsonPack(props, responseJson);
     } catch (e) {
         const error: Error = e as Error;
-        props.appState.uiState.setPacketStatus({
+        props.appState.uiState.setPackStatus({
             isError: true,
-            status: "Error loading packet: request to parsing service failed. Error: " + error.message,
+            status: "Error loading pack: request to parsing service failed. Error: " + error.message,
         });
         console.warn(e);
     }
 }
 
-function loadJsonPacket(props: IPacketLoaderProps, json: string): void {
+function loadJsonPack(props: IPackLoaderProps, json: string): void {
     const uiState: UIState = props.appState.uiState;
 
-    uiState.setPacketStatus({
+    uiState.setPackStatus({
         isError: false,
-        status: "Loading packet...",
+        status: "Loading pack...",
     });
 
-    const parsedPacket: IPacket = JSON.parse(json) as IPacket;
-    const packet: PacketState | undefined = PacketLoaderController.loadPacket(props.appState, parsedPacket);
-    if (packet == undefined) {
+    const parsedPack: IPack = JSON.parse(json) as IPack;
+    const pack: PackState | undefined = PackLoaderController.loadPack(props.appState, parsedPack);
+    if (pack == undefined) {
         return;
     }
 
-    props.onLoad(packet);
+    props.onLoad(pack);
 }
 
-export interface IPacketLoaderProps {
+export interface IPackLoaderProps {
     appState: AppState;
-    onLoad(packet: PacketState): void;
+    onLoad(pack: PackState): void;
 }
 
 interface IParsingServiceErrorMessage {

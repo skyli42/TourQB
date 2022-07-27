@@ -4,7 +4,7 @@ import { FocusZone, FocusZoneDirection, mergeStyleSets } from "@fluentui/react";
 
 import * as TossupQuestionController from "./TossupQuestionController";
 import { UIState } from "../state/UIState";
-import { ITossupWord, Tossup } from "../state/PacketState";
+import { ITossupWord, Tossup } from "../state/PackState";
 import { QuestionWord } from "./QuestionWord";
 import { Cycle } from "../state/Cycle";
 import { BuzzMenu } from "./BuzzMenu";

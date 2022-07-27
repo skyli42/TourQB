@@ -1,6 +1,6 @@
 import { Cycle } from "./Cycle";
 import { IGameFormat } from "./IGameFormat";
-import { PacketState } from "./PacketState";
+import { PackState } from "./PackState";
 import { Player } from "./TeamState";
 
 export type IPendingNewGame = IPendingManualNewGame | IPendingFromSheetsNewGame;
@@ -28,6 +28,6 @@ export interface IPendingFromSheetsNewGame extends IBasePendingNewGame {
 }
 
 interface IBasePendingNewGame {
-    packet: PacketState;
+    pack: PackState;
     gameFormat: IGameFormat;
 }

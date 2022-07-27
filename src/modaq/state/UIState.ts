@@ -5,7 +5,7 @@ import { ignore } from "mobx-sync";
 import * as GameFormats from "./GameFormats";
 import { ITossupProtestEvent, IBonusProtestEvent } from "./Events";
 import { IPendingNewGame, PendingGameType } from "./IPendingNewGame";
-import { PacketState } from "./PacketState";
+import { PackState } from "./PackState";
 import { Player } from "./TeamState";
 import { SheetState } from "./SheetState";
 import { IStatus } from "../../IStatus";
@@ -49,10 +49,10 @@ export class UIState {
     @ignore
     public importGameStatus: IStatus | undefined;
 
-    public packetFilename: string | undefined;
+    public packFilename: string | undefined;
 
     @ignore
-    public packetParseStatus: IStatus | undefined;
+    public packParseStatus: IStatus | undefined;
 
     @ignore
     public pendingBonusProtestEvent?: IBonusProtestEvent;
@@ -102,8 +102,8 @@ export class UIState {
         this.isClockHidden = false;
         this.isEventLogHidden = false;
         this.importGameStatus = undefined;
-        this.packetFilename = undefined;
-        this.packetParseStatus = undefined;
+        this.packFilename = undefined;
+        this.packParseStatus = undefined;
         this.pendingBonusProtestEvent = undefined;
         this.pendingNewGame = undefined;
         this.pendingNewPlayer = undefined;
@@ -130,8 +130,8 @@ export class UIState {
         }
     }
 
-    public clearPacketStatus(): void {
-        this.packetParseStatus = undefined;
+    public clearPackStatus(): void {
+        this.packParseStatus = undefined;
     }
 
     public createPendingNewGame(): void {
@@ -144,7 +144,7 @@ export class UIState {
 
         if (this.pendingNewGame == undefined) {
             this.pendingNewGame = {
-                packet: new PacketState(),
+                pack: new PackState(),
                 firstTeamPlayers,
                 secondTeamPlayers,
                 type: PendingGameType.Manual,
@@ -153,7 +153,7 @@ export class UIState {
         } else {
             this.pendingNewGame = {
                 ...this.pendingNewGame,
-                packet: new PacketState(),
+                pack: new PackState(),
             };
 
             switch (this.pendingNewGame.type) {
@@ -325,16 +325,16 @@ export class UIState {
         this.isEditingCycleIndex = isEditingCycleIndex;
     }
 
-    public setPacketFilename(name: string): void {
-        this.packetFilename = name;
+    public setPackFilename(name: string): void {
+        this.packFilename = name;
     }
 
     public setPendingQuestionFontSize(size: number): void {
         this.pendingQuestionFontSize = size;
     }
 
-    public setPacketStatus(packetStatus: IStatus): void {
-        this.packetParseStatus = packetStatus;
+    public setPackStatus(packStatus: IStatus): void {
+        this.packParseStatus = packStatus;
     }
 
     public setPendingBonusProtest(teamName: string, questionIndex: number, part: number): void {
@@ -385,8 +385,8 @@ export class UIState {
         this.customExport = undefined;
     }
 
-    public resetPacketFilename(): void {
-        this.packetFilename = undefined;
+    public resetPackFilename(): void {
+        this.packFilename = undefined;
     }
 
     public resetPendingBonusProtest(): void {
@@ -394,11 +394,11 @@ export class UIState {
     }
 
     public resetPendingNewGame(): void {
-        this.packetParseStatus = undefined;
+        this.packParseStatus = undefined;
         this.importGameStatus = undefined;
         if (this.pendingNewGame != undefined) {
             // Clear everything but the game format and info derived from the roster URL
-            this.pendingNewGame.packet = new PacketState();
+            this.pendingNewGame.pack = new PackState();
 
             switch (this.pendingNewGame.type) {
                 case PendingGameType.Manual:

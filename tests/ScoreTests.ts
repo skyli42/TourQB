@@ -3,18 +3,18 @@ import { expect } from "chai";
 import * as GameFormats from "src/state/GameFormats";
 import { Player } from "src/state/TeamState";
 import { GameState } from "src/state/GameState";
-import { PacketState, Tossup, Bonus } from "src/state/PacketState";
+import { PackState, Tossup, Bonus } from "src/state/PackState";
 
 const firstTeamPlayer: Player = new Player("Alice", "A", /* isStarter */ true);
 const secondTeamPlayer: Player = new Player("Bob", "B", /* isStarter */ true);
 const players: Player[] = [firstTeamPlayer, secondTeamPlayer];
 
-const defaultPacket: PacketState = new PacketState();
-defaultPacket.setTossups([
+const defaultPack: PackState = new PackState();
+defaultPack.setTossups([
     new Tossup("power before (*) first q", "first a"),
     new Tossup("power before (*) second q", "second a"),
 ]);
-defaultPacket.setBonuses([
+defaultPack.setBonuses([
     new Bonus("first leadin", [{ question: "first q", answer: "first a", value: 10 }]),
     new Bonus("second leadin", [{ question: "second q", answer: "second a", value: 10 }]),
 ]);
@@ -188,7 +188,7 @@ describe("GameStateTests", () => {
 function createDefaultGame(): GameState {
     const game: GameState = new GameState();
     game.addPlayers(players);
-    game.loadPacket(defaultPacket);
+    game.loadPack(defaultPack);
     game.setGameFormat(GameFormats.StandardPowersMACFGameFormat);
     return game;
 }

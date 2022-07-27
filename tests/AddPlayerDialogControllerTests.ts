@@ -4,17 +4,17 @@ import * as AddPlayerDialogController from "src/components/dialogs/AddPlayerDial
 import { AppState } from "src/state/AppState";
 import { IPlayerJoinsEvent } from "src/state/Events";
 import { GameState } from "src/state/GameState";
-import { PacketState, Tossup } from "src/state/PacketState";
+import { PackState, Tossup } from "src/state/PackState";
 import { Player } from "src/state/TeamState";
 
-const defaultPacket: PacketState = new PacketState();
-defaultPacket.setTossups([new Tossup("first q", "first a"), new Tossup("second q", "second a")]);
+const defaultPack: PackState = new PackState();
+defaultPack.setTossups([new Tossup("first q", "first a"), new Tossup("second q", "second a")]);
 
 const defaultTeamNames: string[] = ["First Team", "Team2"];
 
 function createApp(): AppState {
     const gameState: GameState = new GameState();
-    gameState.loadPacket(defaultPacket);
+    gameState.loadPack(defaultPack);
 
     const defaultExistingPlayers: Player[] = [
         new Player("Frank", defaultTeamNames[0], true),

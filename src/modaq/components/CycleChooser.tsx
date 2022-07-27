@@ -181,7 +181,7 @@ function commitCycleIndex(appState: AppState, value: string): void {
     }
 
     const propsedCycleIndex: number = parseInt(value, 10);
-    if (propsedCycleIndex >= 1 && propsedCycleIndex <= appState.game.packet.tossups.length) {
+    if (propsedCycleIndex >= 1 && propsedCycleIndex <= appState.game.pack.tossups.length) {
         appState.uiState.setCycleIndex(propsedCycleIndex - 1);
     }
 

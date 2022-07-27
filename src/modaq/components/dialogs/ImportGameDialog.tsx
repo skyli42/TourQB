@@ -23,7 +23,7 @@ import { GameState } from "../../state/GameState";
 import { FilePicker } from "../FilePicker";
 import { UIState } from "../../state/UIState";
 import { IPlayer, Player } from "../../state/TeamState";
-import { Bonus, PacketState, Tossup } from "../../state/PacketState";
+import { Bonus, PackState, Tossup } from "../../state/PackState";
 import { Cycle, ICycle } from "../../state/Cycle";
 import { IPendingNewGame, PendingGameType } from "../../state/IPendingNewGame";
 import { StateContext } from "../../contexts/StateContext";
@@ -150,8 +150,8 @@ function onLoad(event: ProgressEvent<FileReader>, appState: AppState): void {
     if (parsedGame.cycles == undefined) {
         setInvalidGameStatus(uiState, 'No events in the given game. There must be an array of "cycles".');
         return;
-    } else if (parsedGame.packet == undefined) {
-        setInvalidGameStatus(uiState, 'No packet in the given game. There must be a "packet" object.');
+    } else if (parsedGame.pack == undefined) {
+        setInvalidGameStatus(uiState, 'No pack in the given game. There must be a "pack" object.');
         return;
     } else if (parsedGame.players == undefined) {
         setInvalidGameStatus(uiState, 'No players in the given game. There must be an array of "players".');
@@ -204,28 +204,28 @@ function onLoad(event: ProgressEvent<FileReader>, appState: AppState): void {
     uiState.setPendingNewGameFirstTeamPlayers(allPlayers[0]);
     uiState.setPendingNewGameSecondTeamPlayers(allPlayers[1]);
 
-    // Need to set up packet and cycles... but we can't set the packet until later, when we load it in the game...?
+    // Need to set up pack and cycles... but we can't set the pack until later, when we load it in the game...?
     // set it directly
     if (
-        parsedGame.packet.tossups == undefined ||
-        parsedGame.packet.tossups.length == undefined ||
-        parsedGame.packet.tossups.length === 0
+        parsedGame.pack.tossups == undefined ||
+        parsedGame.pack.tossups.length == undefined ||
+        parsedGame.pack.tossups.length === 0
     ) {
-        setInvalidGameStatus(uiState, "No tossups in the packet.");
+        setInvalidGameStatus(uiState, "No tossups in the pack.");
         return;
     }
 
-    const packet: PacketState = new PacketState();
-    const tossups: Tossup[] = parsedGame.packet.tossups.map(
+    const pack: PackState = new PackState();
+    const tossups: Tossup[] = parsedGame.pack.tossups.map(
         (tossup) => new Tossup(tossup.question, tossup.answer, tossup.metadata)
     );
-    packet.setTossups(tossups);
+    pack.setTossups(tossups);
 
-    if (parsedGame.packet.bonuses != undefined && parsedGame.packet.bonuses.length > 0) {
-        const bonuses: Bonus[] = parsedGame.packet.bonuses.map(
+    if (parsedGame.pack.bonuses != undefined && parsedGame.pack.bonuses.length > 0) {
+        const bonuses: Bonus[] = parsedGame.pack.bonuses.map(
             (bonus) => new Bonus(bonus.leadin, bonus.parts, bonus.metadata)
         );
-        packet.setBonuses(bonuses);
+        pack.setBonuses(bonuses);
     }
 
     if (uiState.pendingNewGame == undefined) {
@@ -236,7 +236,7 @@ function onLoad(event: ProgressEvent<FileReader>, appState: AppState): void {
         return;
     }
 
-    uiState.pendingNewGame.packet = packet;
+    uiState.pendingNewGame.pack = pack;
 
     const cycles: Cycle[] = parsedGame.cycles.map((deserializedCycle) => new Cycle(deserializedCycle));
     uiState.setPendingNewGameCycles(cycles);
@@ -244,7 +244,7 @@ function onLoad(event: ProgressEvent<FileReader>, appState: AppState): void {
     // Format: "Valid game. X tossup(s), X bonus(es). Team1 vs Team2."
     uiState.setImportGameStatus({
         isError: false,
-        status: `Valid game. ${packet.tossups.length} tossup(s), ${packet.bonuses.length} bonus(es). Game between "${allPlayers[0][0].teamName}" and "${allPlayers[1][0].teamName}".`,
+        status: `Valid game. ${pack.tossups.length} tossup(s), ${pack.bonuses.length} bonus(es). Game between "${allPlayers[0][0].teamName}" and "${allPlayers[1][0].teamName}".`,
     });
 }
 
@@ -280,11 +280,11 @@ function onSubmit(appState: AppState): void {
         player.setName(player.name.trim());
     }
 
-    // We need to set the game's packet, players, etc. to the values in the uiState
+    // We need to set the game's pack, players, etc. to the values in the uiState
     game.clear();
     game.addPlayers(firstTeamPlayers.filter((player) => player.name !== ""));
     game.addPlayers(secondTeamPlayers.filter((player) => player.name !== ""));
-    game.loadPacket(pendingNewGame.packet);
+    game.loadPack(pendingNewGame.pack);
     game.setCycles(pendingNewGame.cycles ?? []);
 
     // If we've just started a new game, start at the beginning
@@ -300,5 +300,5 @@ function setInvalidGameStatus(uiState: UIState, message: string): void {
 interface IGame {
     cycles: ICycle[];
     players: IPlayer[];
-    packet: PacketState;
+    pack: PackState;
 }

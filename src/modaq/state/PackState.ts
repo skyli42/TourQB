@@ -5,7 +5,7 @@ import * as FormattedTextParser from "../../parser/FormattedTextParser";
 import { IFormattedText } from "../../parser/IFormattedText";
 import { IGameFormat } from "./IGameFormat";
 
-export class PacketState {
+export class PackState {
     // Anything with methods/computeds not at the top level needs to use @format to deserialize correctly
     @format((deserializedArray: IQuestion[]) => {
         return deserializedArray.map((deserializedTossup) => {

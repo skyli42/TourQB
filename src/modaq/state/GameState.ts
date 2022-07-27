@@ -2,7 +2,7 @@ import { computed, observable, action, makeObservable } from "mobx";
 import { format } from "mobx-sync";
 
 import * as GameFormats from "./GameFormats";
-import { PacketState, Bonus, Tossup } from "./PacketState";
+import { PackState, Bonus, Tossup } from "./PackState";
 import { Player } from "./TeamState";
 import { Cycle, ICycle } from "./Cycle";
 import {
@@ -15,7 +15,7 @@ import {
 import { IGameFormat } from "./IGameFormat";
 
 export class GameState {
-    public packet: PacketState;
+    public pack: PackState;
 
     public players: Player[];
 
@@ -37,7 +37,7 @@ export class GameState {
             cycles: observable,
             teamNames: computed,
             gameFormat: observable,
-            packet: observable,
+            pack: observable,
             players: observable,
             isLoaded: computed,
             finalScore: computed,
@@ -46,19 +46,19 @@ export class GameState {
             addPlayer: action,
             addPlayers: action,
             clear: action,
-            loadPacket: action,
+            loadPack: action,
             setCycles: action,
             setGameFormat: action,
         });
 
-        this.packet = new PacketState();
+        this.pack = new PackState();
         this.players = [];
         this.cycles = [];
         this.gameFormat = GameFormats.UndefinedGameFormat;
     }
 
     public get isLoaded(): boolean {
-        return this.packet.tossups.length > 0;
+        return this.pack.tossups.length > 0;
     }
 
     public get teamNames(): string[] {
@@ -153,7 +153,7 @@ export class GameState {
             if (cycle.tossupProtests) {
                 for (const tossupProtest of cycle.tossupProtests) {
                     // Don't use getTossup because the protest could've been in a thrown-out tossup
-                    const tossup: Tossup | undefined = this.packet.tossups[tossupProtest.questionIndex];
+                    const tossup: Tossup | undefined = this.pack.tossups[tossupProtest.questionIndex];
 
                     if (tossup != undefined) {
                         const tossupTeamIndex: number = tossupProtest.teamName === this.teamNames[0] ? 0 : 1;
@@ -170,7 +170,7 @@ export class GameState {
 
                 for (const bonusProtest of cycle.bonusProtests) {
                     // Don't use getBonus because the protest could've been in a bonus that was then replaced
-                    const bonus: Bonus | undefined = this.packet.bonuses[bonusProtest.questionIndex];
+                    const bonus: Bonus | undefined = this.pack.bonuses[bonusProtest.questionIndex];
                     if (bonus != undefined) {
                         const bonusTeamIndex: number = correctBuzzTeamName === this.teamNames[0] ? 0 : 1;
                         const value: number = bonus.parts[bonusProtest.partIndex].value;
@@ -200,7 +200,7 @@ export class GameState {
     }
 
     public clear(): void {
-        this.packet = new PacketState();
+        this.pack = new PackState();
         this.players = [];
         this.cycles = [];
     }
@@ -278,7 +278,7 @@ export class GameState {
     }
 
     public getBonus(cycleIndex: number): Bonus | undefined {
-        return this.packet.bonuses[this.getBonusIndex(cycleIndex)];
+        return this.pack.bonuses[this.getBonusIndex(cycleIndex)];
     }
 
     public getBonusIndex(cycleIndex: number): number {
@@ -295,11 +295,11 @@ export class GameState {
             }
         }
 
-        return usedBonusesCount >= this.packet.bonuses.length ? -1 : usedBonusesCount;
+        return usedBonusesCount >= this.pack.bonuses.length ? -1 : usedBonusesCount;
     }
 
     public getBuzzValue(buzz: ITossupAnswerEvent): number {
-        const tossup: Tossup | undefined = this.packet.tossups[buzz.tossupIndex];
+        const tossup: Tossup | undefined = this.pack.tossups[buzz.tossupIndex];
         if (tossup == undefined) {
             return 0;
         }
@@ -312,7 +312,7 @@ export class GameState {
     }
 
     public getTossup(cycleIndex: number): Tossup | undefined {
-        return this.packet.tossups[this.getTossupIndex(cycleIndex)];
+        return this.pack.tossups[this.getTossupIndex(cycleIndex)];
     }
 
     public getTossupIndex(cycleIndex: number): number {
@@ -327,11 +327,11 @@ export class GameState {
         return cycleIndex + thrownOutTossupsCount;
     }
 
-    public loadPacket(packet: PacketState): void {
-        this.packet = packet;
+    public loadPack(pack: PackState): void {
+        this.pack = pack;
 
-        if (this.cycles.length < this.packet.tossups.length) {
-            for (let i = this.cycles.length; i < this.packet.tossups.length; i++) {
+        if (this.cycles.length < this.pack.tossups.length) {
+            for (let i = this.cycles.length; i < this.pack.tossups.length; i++) {
                 this.cycles.push(new Cycle());
             }
         }

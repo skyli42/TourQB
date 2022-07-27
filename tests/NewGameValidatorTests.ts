@@ -4,7 +4,7 @@ import * as GameFormats from "src/state/GameFormats";
 import * as NewGameValidator from "src/state/NewGameValidator";
 import { IPendingNewGame, PendingGameType } from "src/state/IPendingNewGame";
 import { Player } from "src/state/TeamState";
-import { PacketState, Tossup } from "src/state/PacketState";
+import { PackState, Tossup } from "src/state/PackState";
 import { Cycle } from "src/state/Cycle";
 
 describe("NewGameValidatorTests", () => {
@@ -66,14 +66,14 @@ describe("NewGameValidatorTests", () => {
         });
     });
     describe("isValid", () => {
-        const defaultPacket: PacketState = new PacketState();
-        defaultPacket.setTossups([new Tossup("Test question", "answer")]);
+        const defaultPack: PackState = new PackState();
+        defaultPack.setTossups([new Tossup("Test question", "answer")]);
 
         it("No players in first team", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -82,7 +82,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -94,7 +94,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters,
                 firstTeamPlayersFromRosters: [],
                 secondTeamPlayersFromRosters: playersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -106,7 +106,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters,
                 firstTeamPlayersFromRosters: playersFromRosters,
                 secondTeamPlayersFromRosters: [],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -115,7 +115,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -124,7 +124,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -137,7 +137,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -150,7 +150,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -159,7 +159,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", true), new Player("aa", "1", true), new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -172,7 +172,7 @@ describe("NewGameValidatorTests", () => {
                     new Player("bb", "2", true),
                     new Player("b", "2", true),
                 ],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -189,7 +189,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -206,7 +206,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -215,7 +215,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", false)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -224,7 +224,7 @@ describe("NewGameValidatorTests", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", false)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -237,7 +237,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -250,16 +250,16 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters,
                 secondTeamPlayersFromRosters,
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
         });
-        it("No tossups in packet", () => {
+        it("No tossups in pack", () => {
             assertNewGameIsInvalid({
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: new PacketState(),
+                pack: new PackState(),
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -269,7 +269,7 @@ describe("NewGameValidatorTests", () => {
                 cycles: [],
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             });
@@ -278,7 +278,7 @@ describe("NewGameValidatorTests", () => {
             const newGame: IPendingNewGame = {
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             };
@@ -287,10 +287,10 @@ describe("NewGameValidatorTests", () => {
         });
         it("Valid game (Manual with cycles)", () => {
             const newGame: IPendingNewGame = {
-                cycles: defaultPacket.tossups.map(() => new Cycle()),
+                cycles: defaultPack.tossups.map(() => new Cycle()),
                 firstTeamPlayers: [new Player("a", "1", true)],
                 secondTeamPlayers: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Manual,
                 gameFormat: GameFormats.UndefinedGameFormat,
             };
@@ -305,7 +305,7 @@ describe("NewGameValidatorTests", () => {
                 playersFromRosters: firstTeamPlayersFromRosters.concat(secondTeamPlayersFromRosters),
                 firstTeamPlayersFromRosters: [new Player("a", "1", true)],
                 secondTeamPlayersFromRosters: [new Player("b", "2", true)],
-                packet: defaultPacket,
+                pack: defaultPack,
                 type: PendingGameType.Lifsheets,
                 gameFormat: GameFormats.UndefinedGameFormat,
             };

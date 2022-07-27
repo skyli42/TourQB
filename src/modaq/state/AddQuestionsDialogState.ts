@@ -1,17 +1,17 @@
 import { makeAutoObservable } from "mobx";
 
-import { PacketState } from "./PacketState";
+import { PackState } from "./PackState";
 
 export class AddQuestionDialogState {
-    public newPacket: PacketState;
+    public newPack: PackState;
 
     constructor() {
         makeAutoObservable(this);
 
-        this.newPacket = new PacketState();
+        this.newPack = new PackState();
     }
 
-    public setPacket(packet: PacketState): void {
-        this.newPacket = packet;
+    public setPack(pack: PackState): void {
+        this.newPack = pack;
     }
 }

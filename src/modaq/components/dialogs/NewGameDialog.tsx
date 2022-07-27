@@ -21,9 +21,9 @@ import * as NewGameValidator from "../../state/NewGameValidator";
 import * as PendingNewGameUtils from "../../state/PendingNewGameUtils";
 import * as Sheets from "../../../sheets/Sheets";
 import { UIState } from "../../state/UIState";
-import { PacketLoader } from "../PacketLoader";
+import { PackLoader } from "../PackLoader";
 import { GameState } from "../../state/GameState";
-import { PacketState } from "../../state/PacketState";
+import { PackState } from "../../state/PackState";
 import { ManualTeamEntry } from "../ManualTeamEntry";
 import { Player } from "../../state/TeamState";
 import { IPendingNewGame, PendingGameType } from "../../state/IPendingNewGame";
@@ -103,10 +103,10 @@ const NewGameDialogBody = observer(function NewGameDialogBody(): JSX.Element {
     const classes: INewGameDialogBodyClassNames = getClassNames();
     const uiState: UIState = appState.uiState;
 
-    const packetLoadHandler = React.useCallback(
-        (packet: PacketState) => {
+    const packLoadHandler = React.useCallback(
+        (pack: PackState) => {
             if (uiState.pendingNewGame) {
-                uiState.pendingNewGame.packet = packet;
+                uiState.pendingNewGame.pack = pack;
             }
         },
         [uiState]
@@ -174,7 +174,7 @@ const NewGameDialogBody = observer(function NewGameDialogBody(): JSX.Element {
                 </PivotItem>
             </Pivot>
             <Separator />
-            <PacketLoader appState={appState} onLoad={packetLoadHandler} />
+            <PackLoader appState={appState} onLoad={packLoadHandler} />
             <Separator />
             <GameFormatPicker
                 gameFormat={uiState.pendingNewGame.gameFormat}
@@ -445,12 +445,12 @@ function onSubmit(appState: AppState): void {
         return;
     }
 
-    // We need to set the game's packet, players, etc. to the values in the uiState
+    // We need to set the game's pack, players, etc. to the values in the uiState
     const game: GameState = appState.game;
     game.clear();
     game.addPlayers(firstTeamPlayers.filter((player) => player.name !== ""));
     game.addPlayers(secondTeamPlayers.filter((player) => player.name !== ""));
-    game.loadPacket(pendingNewGame.packet);
+    game.loadPack(pendingNewGame.pack);
 
     game.setGameFormat(pendingNewGame.gameFormat);
 
