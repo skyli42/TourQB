@@ -9,7 +9,7 @@ struct MyRes {
 }
 
 
-#[get("/")]
+#[get("/test")]
 async fn index() -> Result<impl Responder>  {
     let obj = MyRes{
         name: String::from("AAAA")
