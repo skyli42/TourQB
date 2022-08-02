@@ -23,9 +23,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# rust
-server/target/
-server/debug/
-**/*.rs.bk
+# next
+.next/
 
+
+# test files
 WORKSHOP 2022/

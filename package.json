@@ -10,9 +10,11 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.45",
+    "esbuild": "^0.14.51",
     "express": "^4.18.1",
     "mobx-react-lite": "^3.4.0",
     "mobx-sync": "^3.0.0",
+    "next": "^12.2.4-canary.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.3.0",
@@ -21,12 +23,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx",
-    "lintFix": "eslint . --fix --ext .ts,.tsx"
+    "lintFix": "eslint . --fix --ext .ts,.tsx",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "eslintConfig": {
     "extends": [

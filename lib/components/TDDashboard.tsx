@@ -3,30 +3,25 @@ import React from 'react';
 import RoomGenerator from './RoomGenerator';
 import RoomList from './RoomList';
 
-function TDControl(props: ITDControlProps) {
-    const room_ids: string[] = [];
-
-    room_ids.push("help");
+function TDDashboard(props: ITDDashboardProps) {
     return (
         <div className="td-control">
             <Stack>
                 <StackItem>
-                {props.tour_id}
+                    <RoomList roomIds={props.roomIds} />
                 </StackItem>
                 <StackItem>
-                    <RoomList room_ids = {room_ids}/>
-                </StackItem>
-                <StackItem>
-                    <RoomGenerator />
+                    <RoomGenerator roomIds={props.roomIds} setRoomIds={props.setRoomIds} />
                 </StackItem>
             </Stack>
-            
+
         </div>
     );
 }
 
-export interface ITDControlProps {
-    tour_id: string
+export interface ITDDashboardProps {
+    roomIds: string[],
+    setRoomIds: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default TDControl;
+export default TDDashboard;
