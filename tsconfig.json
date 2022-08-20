@@ -25,7 +25,8 @@
     "incremental": true
   },
   "include": [
-    "src"
+    "lib",
+    "pages"
   ],
   "exclude": [
     "node_modules"

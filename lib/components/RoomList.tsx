@@ -1,12 +1,10 @@
-import { Stack, StackItem } from '@fluentui/react';
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import Link from 'next/link';
 
 function RoomList(props: IRoomListProps) {
 
     const rooms = props.roomIds.map((id)=>
-        <li key={id}><Link to={"/tournament/room/"+id}>{id}</Link></li>
+        <li key={id}><Link href={`/tournament/${props.tournamentId}/rooms/${id}`}>{id}</Link></li>
     );
     return (
         <>
@@ -19,7 +17,8 @@ function RoomList(props: IRoomListProps) {
 }
 
 export interface IRoomListProps {
-    roomIds: string[]
+    roomIds: string[],
+    tournamentId: string
 }
 
 export default RoomList;
