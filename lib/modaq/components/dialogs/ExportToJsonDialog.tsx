@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import {
     Dialog,
@@ -16,7 +16,6 @@ import * as QBJ from "../../../qbj/QBJ";
 import { AppState } from "../../state/AppState";
 import { GameState } from "../../state/GameState";
 import { StateContext } from "../../contexts/StateContext";
-
 const content: IDialogContentProps = {
     type: DialogType.normal,
     title: "Export to JSON",
@@ -57,19 +56,24 @@ export const ExportToJsonDialog = observer(function ExportToJsonDialog(): JSX.El
 
     const joinedTeamNames: string = game.teamNames.join("_");
 
-    const cyclesJson: Blob = new Blob([JSON.stringify(game.cycles)], { type: "application/json" });
-    const cyclesHref: string = URL.createObjectURL(cyclesJson);
-    const cyclesFilename = `${joinedTeamNames}_Events.json`;
+    // nextjs and react are both weird so this all has to be wrapped inside a useEffect
+    const [cyclesHref, setCyclesHref] = React.useState<string>("");
+    const [gameHref, setGameHref] = React.useState<string>("");
+    const [qbjHref, setQbjHref] = React.useState<string>("");
+    const cyclesFilename: string = `${joinedTeamNames}_Events.json`;
+    const gameFilename: string = `${joinedTeamNames}_Game.json`;
+    const qbjFilename: string = `${joinedTeamNames}.qbj`;
 
-    const gameJson: Blob = new Blob([JSON.stringify(game)], { type: "application/json" });
-    const gameHref: string = URL.createObjectURL(gameJson);
-    const gameFilename = `${joinedTeamNames}_Game.json`;
-
-    const qbjJson: Blob = new Blob([QBJ.toQBJString(game, appState.uiState.packFilename)], {
-        type: "application/json",
-    });
-    const qbjHref: string = URL.createObjectURL(qbjJson);
-    const qbjFilename = `${joinedTeamNames}.qbj`;
+    useEffect(() => {
+        const cyclesJson: Blob = new Blob([JSON.stringify(game.cycles)], { type: "application/json" });
+        setCyclesHref(URL.createObjectURL(cyclesJson));
+        const gameJson: Blob = new Blob([JSON.stringify(game)], { type: "application/json" });
+        setGameHref(URL.createObjectURL(gameJson));
+        const qbjJson: Blob = new Blob([QBJ.toQBJString(game, appState.uiState.packFilename)], {
+            type: "application/json",
+        });
+        setQbjHref(URL.createObjectURL(qbjJson))
+    }, [])
 
     return (
         <Dialog

@@ -1,7 +1,5 @@
 import React from 'react';
 import TDHome from '../../../lib/components/TDHome';
-import fs from 'fs';
-import path from 'path';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import { prisma } from '../../../lib/db'
@@ -63,14 +61,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             }
         }
     }
-
-
-
-    // TODO: replace with API call / direct database access
-    const filepath: string = path.resolve(__dirname, "../../../../../db/rooms.txt");
-    const data: string = (await fs.promises.readFile(filepath)).toString();
-    return { props: { rooms: data.split(",") } };
-
 
 }
 export default TDDashboard;
