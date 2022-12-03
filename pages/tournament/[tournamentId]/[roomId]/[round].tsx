@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { prisma } from '../../../../lib/db'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-function RoomHome({ roomId, tournamentName, tournamentId, tournamentLocation, round, roundNum}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function RoomHome({ roomId, tournamentName, tournamentId, tournamentLocation, round, roundNum }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     if (tournamentId === null || roomId === null || round === null) {
         // error with routing
         return null;
@@ -19,7 +19,7 @@ function RoomHome({ roomId, tournamentName, tournamentId, tournamentLocation, ro
         <Head>
             <title>Room {roomId}@{tournamentId}: Round {roundNum} </title>
         </Head>
-        <ModaqHome id={tournamentId + "#" + roomId} />
+        <ModaqHome id={tournamentId + "#" + roomId} teams={[]} />
     </>
 }
 

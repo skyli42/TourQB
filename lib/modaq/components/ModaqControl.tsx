@@ -93,6 +93,10 @@ export interface IModaqControlProps {
     storeName?: string | undefined;
 
     yappServiceUrl?: string;
+    
+
+    //TODO: Typing
+    teams?: any[];
 }
 
 function initializeControl(appState: AppState, props: IModaqControlProps): () => void {

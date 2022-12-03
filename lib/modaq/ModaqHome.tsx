@@ -11,7 +11,7 @@ function ModaqHome(props: IModaqHomeProps) {
       googleClientId={demoGoogleClientId}
       yappServiceUrl={demoYappService}
       storeName={props.id}
-      players={[{name: "A", teamName: "Toronto", isStarter: true}]}
+      teams={props.teams}
     />
   );
 }
