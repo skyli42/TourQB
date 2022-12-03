@@ -1,11 +1,5 @@
 import React from 'react';
 import Warning from './Warning';
-<<<<<<< HEAD
-
-=======
-import fs from "fs";
-import path from "path";
->>>>>>> bf3a9ab383844b4af2705ebdc30a4c42e583935c
 function hasDuplicates(arr: any[]) {
     return new Set(arr).size !== arr.length;
 }
@@ -29,10 +23,7 @@ function RoomGenerator(props: IRoomGeneratorProps) {
 
         //TODO: update database
         if (hasDuplicates(newRooms)) {
-<<<<<<< HEAD
             //TODO: disallow naming a room certain keywords ("dashboard")
-=======
->>>>>>> bf3a9ab383844b4af2705ebdc30a4c42e583935c
             setWarningText("Duplicate Room Name!");
         }
         else {

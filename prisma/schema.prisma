@@ -11,7 +11,6 @@ datasource db {
 }
 
 model Player {
-<<<<<<< HEAD
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   name   String
   teamId String
@@ -54,15 +53,3 @@ model Round {
   tournamentId    String     @db.ObjectId
   tournament      Tournament @relation(fields: [tournamentId], references: [id])
 }
-=======
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-}
-
-model Tournament {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  location String @default("Online")
-  rooms String[]
-}
->>>>>>> bf3a9ab383844b4af2705ebdc30a4c42e583935c
