@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id])
+}
+
+model Team {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  tournamentId String     @db.ObjectId
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  school       School     @relation(fields: [schoolId], references: [id])
+  schoolId     String     @db.ObjectId
+  players      Player[]
+}
+
+model School {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  fullName String
+  location String
+  Team     Team[]
+}
+
+model Tournament {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  location  String   @default("Online")
+  rooms     String[]
+  teams     Team[]
+  numRounds Int
+  rounds    Round[]
+}
+
+// considering just dumping a serialized qbj
+model Round {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  tournamentPhase String //Prelims, Finals, etc.
+  roundNumber     Int
+  tournamentId    String     @db.ObjectId
+  tournament      Tournament @relation(fields: [tournamentId], references: [id])
+}
