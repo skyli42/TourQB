@@ -11,12 +11,19 @@ function ModaqHome(props: IModaqHomeProps) {
       googleClientId={demoGoogleClientId}
       yappServiceUrl={demoYappService}
       storeName={props.id}
+<<<<<<< HEAD
       players={[{name: "A", teamName: "Toronto", isStarter: true}]}
+=======
+>>>>>>> bf3a9ab383844b4af2705ebdc30a4c42e583935c
     />
   );
 }
 export interface IModaqHomeProps{
+<<<<<<< HEAD
   id: string;
   teams: any[]; // TODO: Figure out typing here
+=======
+  id: string
+>>>>>>> bf3a9ab383844b4af2705ebdc30a4c42e583935c
 }
 export default ModaqHome;
